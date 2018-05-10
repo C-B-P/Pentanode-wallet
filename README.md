@@ -157,7 +157,7 @@ _Other_
 We are also running reccurent Airdrops and Giveaways on Discord to help you getting started in Pentanode community.  
 Likewise, every aspect of our airdrops policy can be found on our Discord server.
 ## Download
-**Pentanode will be available for download Thursday, 10th of May 2018 at 12pm GMT**  
+**Pentanode will be available for download Friday, 11th of May 2018 at 7am GMT**  
   
 [![](https://www.pentanode-crypto.com/images/btctalk/download.png&t=588&c=-gawqBQNK5fq8Q)](https://www.pentanode-crypto.com/page/download)  
   
