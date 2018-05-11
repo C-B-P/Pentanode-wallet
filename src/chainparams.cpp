@@ -66,26 +66,26 @@ public:
 		nRPCPort = 8558;
 		bnProofOfWorkLimit = CBigNum(~uint256(0) >> 16);
 
-		const char* pszTimestamp = "PentaNode";
+		const char* pszTimestamp = "PentaNode, a 5 level tiered masternode system. https://pentanode-crypto.com. GenesisBlock 10th of May 2018";
 		std::vector<CTxIn> vin;
 		vin.resize(1);
 		vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
 		std::vector<CTxOut> vout;
 		vout.resize(1);
 		vout[0].SetEmpty();
-		CTransaction txNew(1, 0, vin, vout, 0);
+		CTransaction txNew(1, 1525939200, vin, vout, 0);
 		genesis.vtx.push_back(txNew);
 		genesis.hashPrevBlock = 0;
 		genesis.hashMerkleRoot = genesis.BuildMerkleTree();
 		genesis.nVersion = 1;
-		genesis.nTime = 0;
+		genesis.nTime = 1525939200;
 		genesis.nBits = 520159231;
-		genesis.nNonce = 0;
+		genesis.nNonce = 65385;
 
 		hashGenesisBlock = genesis.GetHash();
 
-		assert(hashGenesisBlock == uint256("0x"));
-		assert(genesis.hashMerkleRoot == uint256("0x"));
+		assert(hashGenesisBlock == uint256("0x0000ae0bb750ba12a6c94c71bbda709917a839c8d536d406c48dcd639abea2c8"));
+		assert(genesis.hashMerkleRoot == uint256("0xb1607825af88c738d94a81b153c6e79320080ac972636466efe442d0221f74bc"));
 
 		base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 56);
 		base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 85);
@@ -93,6 +93,10 @@ public:
 		base58Prefixes[STEALTH_ADDRESS] = std::vector<unsigned char>(1, 40);
 		base58Prefixes[EXT_PUBLIC_KEY] = list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
 		base58Prefixes[EXT_SECRET_KEY] = list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
+
+		vSeeds.push_back(CDNSSeedData("0", "139.99.98.127")); //Add seed IP
+		vSeeds.push_back(CDNSSeedData("1", "139.99.98.128")); //Add seed IP
+		vSeeds.push_back(CDNSSeedData("2", "139.99.98.129")); //Add seed IP
 
 		convertSeeds(vFixedSeeds, pnSeed, ARRAYLEN(pnSeed), nDefaultPort);
 
