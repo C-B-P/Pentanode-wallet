@@ -55,7 +55,7 @@ static std::map<int, int> masternodeTiers = map_list_of (1, 2500) (2, 5000) (3, 
 static std::map<int, int> masternodeTierRewards = map_list_of (1, 20) (2, 50) (3, 120) (4, 200) (5, 350);
 
 //
-// The Masternode Class. For managing the darksend process. It contains the input of the 500 PTN, signature to prove
+// The Masternode Class. For managing the darksend process. It contains the input of the PTN, signature to prove
 // it's the one who own that ip address and code for calculating the payment election.
 //
 class CMasternode
