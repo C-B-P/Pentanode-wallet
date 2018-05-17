@@ -172,7 +172,7 @@ Linux wallet (Daemon) sum is : _"will be published on release date"_
 ## PentaNode Blockchain Explorer
 Clic on this picto to go to our blockchain explorer  
   
-[![](https://www.pentanode-crypto.com/images/btctalk/blockchain.jpg&t=588&c=39mezgeZqOw5PA)](http://blockchain.pentanode-crypto.com:3001/)
+[![](https://www.pentanode-crypto.com/images/btctalk/blockchain.jpg&t=588&c=39mezgeZqOw5PA)](http://explorer.pentanode-crypto.com//)
 ## PentaNode Community
 Pentanode is represented on Twitter and Bitcointalk, we chat on [Discord](https://discord.gg/amtRG8V) and our sourcecode is on [Github](https://github.com/PentaNode/Pentanode-wallet). We are nowhere else, if someone is inviting your on slack or facebook or somewhere else, it's either a scam or a fraud.  
   
