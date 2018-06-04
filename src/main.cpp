@@ -1412,6 +1412,32 @@ bool IsPOSRewardValid(int64_t value, int64_t nFees) {
     return false;
 }
 
+int64_t GetMNRewardGiven(const CTransaction& tx)
+{
+    if (tx.vout.size() < 3)
+      return 0;
+
+    int64_t reward = 0;
+    CScript script = tx.vout[1].scriptPubKey;
+
+    BOOST_FOREACH(const CTxOut& txout, tx.vout)
+    {
+        if (txout.scriptPubKey != script)
+            reward += txout.nValue;
+    }
+
+    return reward;
+}
+
+bool IsMNRewardValid(int64_t value, int64_t nFees) {
+    BOOST_FOREACH(PAIRTYPE(const int, int)& tier, masternodeTierRewards) {
+        if (value >= (tier.second * COIN) && value <= ((tier.second * COIN) + nFees))
+            return true;
+    }
+
+    return false;
+}
+
 // miner's coin stake reward
 int64_t GetProofOfStakeReward(const CBlockIndex* pindexPrev, int64_t nCoinAge, int64_t nFees)
 {
@@ -2212,7 +2238,6 @@ bool static Reorganize(CTxDB& txdb, CBlockIndex* pindexNew)
     return true;
 }
 
-
 // Called from inside SetBestChain: attaches a block to the new best chain being built
 bool CBlock::SetBestChainInner(CTxDB& txdb, CBlockIndex *pindexNew)
 {
@@ -2236,6 +2261,34 @@ bool CBlock::SetBestChainInner(CTxDB& txdb, CBlockIndex *pindexNew)
         mempool.remove(tx);
 
     return true;
+}
+
+int64_t CBlock::ComputeFee() const
+{
+    CTxDB txdb("r");
+    std::vector<CTransaction> transactions = vtx;
+    int64_t nFees = 0;
+
+    BOOST_FOREACH(CTransaction& tx, transactions)
+    {
+        if (!tx.IsCoinBase())
+        {
+            MapPrevTx mapInputs;
+            map<uint256, CTxIndex> mapQueuedChanges;
+            bool fInvalid = true;
+
+            if (!tx.FetchInputs(txdb, mapQueuedChanges, true, false, mapInputs, fInvalid))
+                return 0;
+
+            int64_t nTxValueIn = tx.GetValueIn(mapInputs);
+            int64_t nTxValueOut = tx.GetValueOut();
+
+            if (!tx.IsCoinStake() && (nTxValueIn > nTxValueOut))
+                nFees += nTxValueIn - nTxValueOut;
+        }
+    }
+
+    return nFees;
 }
 
 bool CBlock::SetBestChain(CTxDB& txdb, CBlockIndex* pindexNew)
@@ -2511,8 +2564,7 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
     if (fCheckSig && !CheckBlockSignature())
         return DoS(100, error("CheckBlock() : bad proof-of-stake block signature"));
 
-
-// ----------- instantX transaction scanning -----------
+    // ----------- instantX transaction scanning -----------
 
     if(IsSporkActive(SPORK_3_INSTANTX_BLOCK_FILTERING)){
         BOOST_FOREACH(const CTransaction& tx, vtx){
@@ -2532,11 +2584,9 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
         if(fDebug) { LogPrintf("CheckBlock() : skipping transaction locking checks\n"); }
     }
 
-
-
     // ----------- masternode payments -----------
 
-    bool MasternodePayments = false;
+    bool MasternodePayments = true;
     bool fIsInitialDownload = IsInitialBlockDownload();
 
     if(nTime > START_MASTERNODE_PAYMENTS) MasternodePayments = true;
@@ -2561,20 +2611,31 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
 
                     CScript payee;
                     CTxIn vin;
+
                     if(!masternodePayments.GetBlockPayee(pindexBest->nHeight+1, payee, vin) || payee == CScript()){
-                        foundPayee = true; //doesn't require a specific payee
                         foundPaymentAmount = true;
+                        foundPayee = true;
                         foundPaymentAndPayee = true;
+
                         if(fDebug) { LogPrintf("CheckBlock() : Using non-specific masternode payments %d\n", pindexBest->nHeight+1); }
+                    } else {
+                        for (unsigned int i = 0; i < vtx[1].vout.size(); i++) {
+                            if(vtx[1].vout[i].nValue == masternodePaymentAmount )
+                                foundPaymentAmount = true;
+                            if(vtx[1].vout[i].scriptPubKey == payee)
+                                foundPayee = true;
+                            if(vtx[1].vout[i].nValue == masternodePaymentAmount && vtx[1].vout[i].scriptPubKey == payee)
+                                foundPaymentAndPayee = true;
+                        }
                     }
 
-                    for (unsigned int i = 0; i < vtx[1].vout.size(); i++) {
-                        if(vtx[1].vout[i].nValue == masternodePaymentAmount )
-                            foundPaymentAmount = true;
-                        if(vtx[1].vout[i].scriptPubKey == payee )
-                            foundPayee = true;
-                        if(vtx[1].vout[i].nValue == masternodePaymentAmount && vtx[1].vout[i].scriptPubKey == payee)
-                            foundPaymentAndPayee = true;
+                    if (pindexBest->nHeight > FIX_REWARD_FORK_BLOCK) { 
+                        uint64_t nFees = ComputeFee();
+
+                        // Make sure that MN reward goes to MN and not to the staking address.
+                        masternodePaymentAmount = GetMNRewardGiven(vtx[1]);
+                        foundPaymentAmount = IsMNRewardValid(masternodePaymentAmount, nFees);
+                        foundPaymentAndPayee = foundPaymentAmount && foundPayee;
                     }
 
                     CTxDestination address1;
@@ -3589,10 +3650,12 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+
+        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION ||
+          ((nBestHeight >= FIX_REWARD_FORK_BLOCK) && (pfrom->nVersion < MIN_PEER_PROTO_VERSION_AFTER_FIX_REWARD_FORK)))
         {
             // disconnect from peers older than this proto version
-            LogPrintf("partner %s using obsolete version %i; disconnecting\n", pfrom->addr.ToString(), pfrom->nVersion);
+            LogPrintf("partner %s using obsolete version %i; disconnecting.\n", pfrom->addr.ToString(), pfrom->nVersion);
             pfrom->fDisconnect = true;
             return false;
         }
@@ -3678,9 +3741,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         if (GetBoolArg("-synctime", true)){
             AddTimeData(pfrom->addr, nTime);
         }
-
     }
-
 
     else if (pfrom->nVersion == 0)
     {
@@ -3689,6 +3750,12 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv)
         return false;
     }
 
+    else if ((nBestHeight >= FIX_REWARD_FORK_BLOCK) && (pfrom->nVersion < MIN_PEER_PROTO_VERSION_AFTER_FIX_REWARD_FORK))
+    {
+        LogPrintf("partner %s using obsolete version %i after fork; disconnecting.\n", pfrom->addr.ToString(), pfrom->nVersion);
+        pfrom->fDisconnect = true;
+        return false;
+    }
 
     else if (strCommand == "verack")
     {

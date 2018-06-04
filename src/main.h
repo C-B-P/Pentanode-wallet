@@ -25,7 +25,7 @@ static const int64_t DARKSEND_POOL_MAX = (4999.99*COIN);
 
 static const int64_t STATIC_POS_REWARD = 25 * COIN; //Constant reward of 25 PTN 
 static const int64_t TARGET_SPACING = 60; //60 sec
-
+static const int64_t FIX_REWARD_FORK_BLOCK = 32500; 
 
 #define INSTANTX_SIGNATURES_REQUIRED           10
 #define INSTANTX_SIGNATURES_TOTAL              15
@@ -896,6 +896,7 @@ public:
 
 private:
     bool SetBestChainInner(CTxDB& txdb, CBlockIndex *pindexNew);
+    int64_t ComputeFee() const;
 };
 
 
