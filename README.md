@@ -96,7 +96,7 @@ We organize airdrops, bounties, and much more through Discord and Bitcointalk.
 We launch video guides about Pentanode : Masternode setup video guides, Tiered masternode explanations, Blockchain exploration tutorials etc...  
   
 _Online exchanges listing / Summer 2018_  
-Masternodes are activated and Pentanode blockchain is running smoothly, we start listing Pentanode on various online exchanges like Cryptopia, Cryptobridge or CoinExchange.
+Masternodes are activated and Pentanode blockchain is running smoothly, we start listing Pentanode on various online exchanges like Graviex, Cryptobridge, Cryptopia or CoinExchange. Exchange list will increase with time if our coin is accepted.
 
 ## Public Sale
 PentaNode is currently on Pre-Sale phase, this means the only way to get some coins and build a masternode is to buy coins.  
