@@ -2040,18 +2040,6 @@ bool CBlock::ConnectBlock(CTxDB& txdb, CBlockIndex* pindex, bool fJustCheck)
 
         if (!IsPOSRewardValid(nStakeReward, nFees))
             return DoS(100, error("ConnectBlock() : coinstake pays too much(actual=%d)", nStakeReward));
-
-        /*
-        // ppcoin: coin stake tx earns reward instead of paying fee
-        uint64_t nCoinAge;
-        if (!vtx[1].GetCoinAge(txdb, pindex->pprev, nCoinAge))
-            return error("ConnectBlock() : %s unable to get coin age for coinstake", vtx[1].GetHash().ToString());
-
-        int64_t nCalculatedStakeReward = GetProofOfStakeReward(pindex->pprev, nCoinAge, nFees);
-
-        if (nStakeReward > nCalculatedStakeReward)
-            return DoS(100, error("ConnectBlock() : coinstake pays too much(actual=%d vs calculated=%d)", nStakeReward, nCalculatedStakeReward));
-        */
     }
 
     // ppcoin: track money supply and mint amount info
@@ -2586,7 +2574,7 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
 
     // ----------- masternode payments -----------
 
-    bool MasternodePayments = true;
+    bool MasternodePayments = false;
     bool fIsInitialDownload = IsInitialBlockDownload();
 
     if(nTime > START_MASTERNODE_PAYMENTS) MasternodePayments = true;
@@ -2611,31 +2599,20 @@ bool CBlock::CheckBlock(bool fCheckPOW, bool fCheckMerkleRoot, bool fCheckSig) c
 
                     CScript payee;
                     CTxIn vin;
-
                     if(!masternodePayments.GetBlockPayee(pindexBest->nHeight+1, payee, vin) || payee == CScript()){
+                        foundPayee = true; //doesn't require a specific payee
                         foundPaymentAmount = true;
-                        foundPayee = true;
                         foundPaymentAndPayee = true;
-
                         if(fDebug) { LogPrintf("CheckBlock() : Using non-specific masternode payments %d\n", pindexBest->nHeight+1); }
-                    } else {
-                        for (unsigned int i = 0; i < vtx[1].vout.size(); i++) {
-                            if(vtx[1].vout[i].nValue == masternodePaymentAmount )
-                                foundPaymentAmount = true;
-                            if(vtx[1].vout[i].scriptPubKey == payee)
-                                foundPayee = true;
-                            if(vtx[1].vout[i].nValue == masternodePaymentAmount && vtx[1].vout[i].scriptPubKey == payee)
-                                foundPaymentAndPayee = true;
-                        }
                     }
 
-                    if (pindexBest->nHeight > FIX_REWARD_FORK_BLOCK) { 
-                        uint64_t nFees = ComputeFee();
-
-                        // Make sure that MN reward goes to MN and not to the staking address.
-                        masternodePaymentAmount = GetMNRewardGiven(vtx[1]);
-                        foundPaymentAmount = IsMNRewardValid(masternodePaymentAmount, nFees);
-                        foundPaymentAndPayee = foundPaymentAmount && foundPayee;
+                    for (unsigned int i = 0; i < vtx[1].vout.size(); i++) {
+                        if(vtx[1].vout[i].nValue == masternodePaymentAmount )
+                            foundPaymentAmount = true;
+                        if(vtx[1].vout[i].scriptPubKey == payee )
+                            foundPayee = true;
+                        if(vtx[1].vout[i].nValue == masternodePaymentAmount && vtx[1].vout[i].scriptPubKey == payee)
+                            foundPaymentAndPayee = true;
                     }
 
                     CTxDestination address1;
