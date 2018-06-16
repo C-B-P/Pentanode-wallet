@@ -65,7 +65,7 @@ Diamond masternodes reward : 350 coins/block.
 _Pentanode Preparation and Launch May 2018_  
 During March and April 2018, Pentanode is designed; during May 2018, Pentanode is launched.  
   
-Blockchain is starting, website and blockchain explorer are ready. Wallets are published on [Pentanode website](https://www.pentanode-crypto.com/page/download) and [Github](https://github.com/PentaNode/Pentanode-wallet), announcements are made on cryptocurrencies related websites. Twitter account is starting talking about Pentanode, Discord server is launched and various Airdrops and Bounties are planned.  
+Blockchain is starting, website and blockchain explorer are ready. Wallets are published on [Pentanode website](https://www.pentanode-crypto.com/page/download) and [Github](https://github.com/PentaNode/Pentanode-wallet), announcements are made on cryptocurrencies related websites. Twitter account is starting talking about Pentanode and various Airdrops and Bounties are planned.  
   
 _Pentanode masternode activation May 2018_  
 First masternodes are activated.  
@@ -85,14 +85,13 @@ Block #35000 is mined and we activate all tiers. Bronze, Silver, Gold, Platinum 
 _Pentanode Launch May 2018_  
 During May 2018, Pentanode is launched.  
 We start promoting Pentanode on bitcointalk, twitter, facebook, reddit and other social media.  
-We start a Discord server for community and promote Pentanode through bounties, airdrops and signature campaign.  
   
 _Pentanode is listed on masternode websites May 2018_  
 For maximum exposure, we will list Pentanode on Masternodes.online, MNProfits, Masternodes.pro, MNRank and other masternodes tracking websites.  
   
 _Pentanode max exposure June 2018_  
 We attract more and more investors by spreading Pentanode communication campaign through various social media.  
-We organize airdrops, bounties, and much more through Discord and Bitcointalk.  
+We organize airdrops, bounties, and much more through Bitcointalk.  
 We launch video guides about Pentanode : Masternode setup video guides, Tiered masternode explanations, Blockchain exploration tutorials etc...  
   
 _Online exchanges listing / Summer 2018_  
@@ -115,29 +114,12 @@ We accept both Bitcoin and Ethereum.
   
 All informations is described in [our official website](https://www.pentanode-crypto.com/).
 
-## PentaNode Airdrop & Bounties
-We are running Airdrops and a Bounty Campaign to help promote Pentanode all over the internet.  
-Join the campain and help us by tackling various tasks to get your reward.
-### Airdrops
-Do you want to get some free Pentanode coins ?  
-[Just subscribe to our airdrop through this form](https://goo.gl/forms/DQ0fchomzLaKCfUG2)!  
-First Airdrop of 20 PTN coins will be shipped the 20th of May, then we will send coins every two sunday.  
-Don't forget to register for each airdrop as you will have to perform new tasks to be eligible again.  
-[https://goo.gl/forms/DQ0fchomzLaKCfUG2](https://goo.gl/forms/DQ0fchomzLaKCfUG2)  
-  
-**Next airdrop is scheduled on : 20th of May 2018**  
-Don't hesitate to fill this google form to participate in our first Airdrop.  
-You'll receive your first airdrop on the 20th of May. Thew we will drop every two sundays.
-### Bounties
-Don't hesitate to fill this google form to participate in our first Airdrop.  
-You have to follow our twitter account, retweet and log in into our Discord channel, and that's all, you'll receive your first airdrop on the 20th of May. Thew we will drop every two sundays.  
-Every aspect of our bounty campaign can be found on our [Discord](https://discord.gg/amtRG8V) server.  
-We also have a few permanent bounties that can be completed any time  
-  
+## PentaNode Bounties
+
 _Translation bounty_  
 Get some free PTN coins by helping us translating our guides !  
 Download this language pack file ( [https://www.pentanode-crypto.com/upload/pentanode_language_pack.zip](https://www.pentanode-crypto.com/upload/pentanode_language_pack.zip) ) and translate each file into your mothertongue language.  
-Send it back to us by email or on Discord and we will reward you with a $100 worth "Staking starter (100 coins)" pack.  
+Send it back to us by email and we will reward you with a $100 worth "Staking starter (100 coins)" pack.  
   
 For each language, as long as the translation in not published on our website (flag is "turn-off" with no link), we will reward every translation received, even if we receive the same translation from different people. However, no rewards will be sent once the flag is turned on and the translation is officially published.  
 We also reserve the right not to reward you if your translation is not of sufficient quality.  
@@ -153,10 +135,6 @@ Help us by making a video on youtube to explain how to setup a Pentanode mastern
 Ideal video should explain the whole procedure, step by step, starting from the VPS configuration, explaining how to configure windows wallet and linux wallet and finishing by showing how to start the masternode and check payments on blockchain explorer.  
 Send the link to us by email or on this thread and we will reward you with a $250 worth "Staking quickjump (250 coins)" pack.  
   
-_Other_  
-We are also running reccurent Airdrops and Giveaways on Discord to help you getting started in Pentanode community.  
-Likewise, every aspect of our airdrops policy can be found on our Discord server.
-
 ## Download
   
 [![](https://www.pentanode-crypto.com/images/btctalk/download.png&t=588&c=-gawqBQNK5fq8Q)](https://www.pentanode-crypto.com/page/download)  
@@ -174,10 +152,10 @@ Clic on this picto to go to our blockchain explorer
   
 [![](https://www.pentanode-crypto.com/images/btctalk/blockchain.jpg&t=588&c=39mezgeZqOw5PA)](http://explorer.pentanode-crypto.com//)
 ## PentaNode Community
-Pentanode is represented on Twitter and Bitcointalk, we chat on [Discord](https://discord.gg/amtRG8V) and our sourcecode is on [Github](https://github.com/PentaNode/Pentanode-wallet). We are nowhere else, if someone is inviting your on slack or facebook or somewhere else, it's either a scam or a fraud.  
+Pentanode is represented on Twitter and Bitcointalk and our sourcecode is on [Github](https://github.com/PentaNode/Pentanode-wallet). We are nowhere else, if someone is inviting your on slack or facebook or somewhere else, it's either a scam or a fraud.  
   
 
-**[WEBSITE](https://www.pentanode-crypto.com/)  | [TWITTER](https://twitter.com/PentaNodeDev)  |  [DISCORD](https://discord.gg/amtRG8V)  |  [GITHUB](https://github.com/PentaNode/Pentanode-wallet)**
+**[WEBSITE](https://www.pentanode-crypto.com/)  | [TWITTER](https://twitter.com/PentaNodeDev)  |  [GITHUB](https://github.com/PentaNode/Pentanode-wallet)**
 
 ## PentaNode Affiliation program
 You can use affiliate link to spread the word about our Public sale.  
@@ -195,4 +173,4 @@ Or, simply copy paste this link : https://www.pentanode-crypto.com/aff/YourPTNAd
 Share this link wherever you want, your blog, facebook, twitter, discord, bitcointalk, reddit, there's no limit.  
 If someone buys some coin through your affiliate link, you earn your share of it.
 ## FAQ : Frequently Asked Questions
-Still have any question about Pentanode ? Feel free to post here or check our [FAQ](https://www.pentanode-crypto.com/page/other) ! You can also find some help [on our Discord server](https://discord.gg/amtRG8V).
+Still have any question about Pentanode ? Feel free to post here or check our [FAQ](https://www.pentanode-crypto.com/page/other) ! 
